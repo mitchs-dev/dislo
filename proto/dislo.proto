@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+package dislo;
+
+option go_package = "generated/dislo";
+
+enum Errors {
+    UNKNOWN_ERROR = 0;
+    LOCK_NOT_FOUND = 1;
+    LOCK_ALREADY_EXISTS = 2;
+    INTERNAL_SERVER_ERROR = 3;
+    NAMESPACE_NOT_FOUND = 4;
+    NO_LOCKS_PROVIDED = 5;
+    NO_CORRELATION_ID_PROVIDED = 6;
+    NO_INSTANCE_PROVIDED = 7;
+    INSTANCE_OUTSIDE_SERVER_RANGE = 8;
+    LOCK_NAMESPACE_IS_EMPTY = 9;
+    LOCK_ID_IS_EMPTY = 10;
+    CLIENT_ID_NOT_IN_UUID_FORMAT = 11;
+    CLIENT_ID_IS_EMPTY = 12;
+    INSTANCE_IS_RESERVED = 13;
+}
+
+enum LockStatus {
+    UNKNOWN_STATUS = 0;
+    LOCKED = 1;
+    UNLOCKED = 2;
+    PENDING_DELETION = 3;
+    PENDING_CREATION = 4;
+}
+
+message Label {
+    string key = 1;
+    string value = 2;
+}
+
+message Lock {
+    string id = 1;
+    LockStatus status = 2;
+    string namespace = 3;
+    repeated Label labels = 4;    
+}
+
+message Request {
+    repeated Lock locks = 1; // List of locks to be processed
+    bool lock = 2; // To lock or unlock
+    int32 instance = 3; // Instance within Dislo (0-9; Default: 0)
+    string correlation_id = 4; // Correlation ID for tracking
+    string client_id = 5; // Client ID for tracking
+}
+
+message Response {
+    Errors error = 1; // Error code
+    repeated Lock locks = 2; // List of locks returned
+    int32 queue_position = 3; // Position in the queue for the lock
+    string correlation_id = 4; // Correlation ID for tracking
+    string failed_on_lock = 5; // Lock that failed the request
+}
+
+service Dislo {
+    rpc Lock (Request) returns (Response);
+    rpc Unlock (Request) returns (Response);
+    rpc Create (Request) returns (Response);
+    rpc Delete (Request) returns (Response);
+    rpc Status (Request) returns (Response);
+    rpc List (Request) returns (Response);
+}
+
