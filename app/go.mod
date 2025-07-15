@@ -1,4 +1,4 @@
-module github.com/mitchs-dev/dislo
+module github.com/mitchs-dev/dislo/app
 
 go 1.23.1
 
