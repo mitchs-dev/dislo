@@ -5,8 +5,8 @@
 services:
   dislo:
     build:
-      context: ./app
-      dockerfile: ../Dockerfile
+      context: ./
+      dockerfile: Dockerfile
     container_name: dislo-app
     ports:
       - "5900:5900"

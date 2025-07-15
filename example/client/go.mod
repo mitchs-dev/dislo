@@ -1,6 +1,6 @@
 module example
 
-replace github.com/mitchs-dev/dislo => ../../app
+replace github.com/mitchs-dev/dislo => ../../
 
 go 1.23.1
 

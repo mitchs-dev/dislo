@@ -11,7 +11,7 @@ if [ $currentDir != "proto" ]; then
   exit 1
 fi
 
-appDir="../app/pkg"
+appDir="../pkg"
 
 rm -rf $appDir/generated
 mkdir -p $appDir

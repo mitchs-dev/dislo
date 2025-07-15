@@ -61,7 +61,7 @@ For production use, consider deploying Dislo behind a secure network layer (e.g.
 
 ## Configuration
 
-- The main configuration is located in [`app/internal/configuration/default.json`](app/internal/configuration/default.json).
+- The main configuration is located in [`internal/configuration/default.json`](internal/configuration/default.json).
 - You can override settings by providing your own configuration file, though, this is optional.
 - Key configuration options include server host/port, instances, namespaces, and cluster settings.
 
@@ -97,7 +97,7 @@ The API is defined in [`proto/dislo.proto`](proto/dislo.proto). Main RPCs:
 - `Status(Request) returns (Response)`
 - `List(Request) returns (Response)`
 
-See the [generated Go code](app/pkg/generated/dislo/dislo.pb.go) for message and enum details.
+See the [generated Go code](pkg/generated/dislo/dislo.pb.go) for message and enum details.
 
 ---
 
@@ -123,7 +123,7 @@ go run main.go
 - **Regenerate gRPC code:**  
   Run `./proto/proto.sh` from the `proto` directory after modifying `dislo.proto`.
 - **Configuration:**  
-  Create your own configuration file in YAML or JSON. You can use the [default configuration](app/internal/configuration/default.json) as a template. If no configuration file is given, the default configuration will be used.
+  Create your own configuration file in YAML or JSON. You can use the [default configuration](internal/configuration/default.json) as a template. If no configuration file is given, the default configuration will be used.
 - **Cluster Mode:**  
   Cluster mode is planned but not yet implemented. The server currently runs in single-node mode.
 
