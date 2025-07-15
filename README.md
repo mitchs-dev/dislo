@@ -2,7 +2,7 @@
 
 Dislo is a distributed lock management system implemented in Go, providing a gRPC API for safely coordinating access to shared resources across multiple clients and instances. It supports concurrent locking, queueing, and namespace isolation, making it suitable for distributed systems and microservices architectures.
 
-> ![important]
+> [!important]
 > **Clustered Mode** is a planned feature. However, it is not yet available and currently, Dislo operates in a single-node mode. Clustered mode will be implemented based on demand and development availability.
 
 ---
