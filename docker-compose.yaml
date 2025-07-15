@@ -1,0 +1,40 @@
+############################################################
+# THIS DOCKER FILE IS INTENDED FOR DEVELOPMENT PURPOSES ONLY
+# IT IS NOT RECOMMENDED TO USE THE LATEST TAG IN PRODUCTION
+############################################################
+services:
+  dislo:
+    build:
+      context: ./app
+      dockerfile: ../Dockerfile
+    container_name: dislo-app
+    ports:
+      - "5900:5900"
+    networks:
+      - dislo-network
+    volumes:
+      - ./config:/config
+    environment:
+      - CONFIG_FILE=/config
+      - LOG_LEVEL=info
+  redis:
+    image: docker.dragonflydb.io/dragonflydb/dragonfly:latest
+    container_name: dislo-redis
+    command:
+      - '--port=5901'
+    ports:
+      - "5901:5901"
+    volumes:
+      - dislo_dragonfly_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - dislo-network
+volumes:
+  dislo_dragonfly_data:
+
+networks:
+  dislo-network:
