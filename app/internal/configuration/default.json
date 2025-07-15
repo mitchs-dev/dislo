@@ -1,0 +1,1 @@
+{"server":{"port":5900,"host":"0.0.0.0","log_format":"json","timezone":"UTC"},"cluster":{"enabled":false,"id_path":"./.dislo/cluster_id","management":{"db":0}},"redis":{"port":5901,"host":"localhost","password":""},"instances":[{"id":1,"namespaces":[{"name":"default","options":{"next_in_queue_timeout":"60s"}}]}]}
