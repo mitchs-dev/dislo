@@ -15,15 +15,15 @@ import (
 )
 
 // Context for the client to use when connecting to the Dislo service
-type clientContext struct {
+type ClientContext struct {
 	instance int             // Instance number to use within the Dislo service (0-9)
 	procCtx  context.Context // Context for the client
-	grpcCtx  pb.DisloClient  // gRPC client clientContext
+	grpcCtx  pb.DisloClient  // gRPC client ClientContext
 	clientID uuid.UUID       // Client ID for the client
 }
 
-// Creates a new client clientContext
-func NewContext(host string, port int, skipTls bool, instance int, clientID uuid.UUID) *clientContext {
+// Creates a new client ClientContext
+func NewContext(host string, port int, skipTls bool, instance int, clientID uuid.UUID) *ClientContext {
 
 	var grpcOpts []grpc.DialOption
 	if skipTls {
@@ -46,7 +46,7 @@ func NewContext(host string, port int, skipTls bool, instance int, clientID uuid
 	// Create a new process context
 	ctx := context.Background()
 
-	return &clientContext{
+	return &ClientContext{
 		instance: instance,
 		procCtx:  ctx,
 		grpcCtx:  client,
@@ -55,7 +55,7 @@ func NewContext(host string, port int, skipTls bool, instance int, clientID uuid
 }
 
 // Lock a lock in the Dislo service
-func (c *clientContext) Lock(id, namespace, correlationID string) error {
+func (c *ClientContext) Lock(id, namespace, correlationID string) error {
 
 	// Ensure that the ID is not empty
 	if id == "" {
@@ -96,7 +96,7 @@ func (c *clientContext) Lock(id, namespace, correlationID string) error {
 }
 
 // Unlock a lock in the Dislo service
-func (c *clientContext) Unlock(id, namespace, correlationID string) error {
+func (c *ClientContext) Unlock(id, namespace, correlationID string) error {
 	// Ensure that the ID is not empty
 	if id == "" {
 		return fmt.Errorf("ID cannot be empty")
@@ -132,7 +132,7 @@ func (c *clientContext) Unlock(id, namespace, correlationID string) error {
 }
 
 // Create a new lock in the Dislo service without labels
-func (c *clientContext) Create(id, namespace, correlationID string) error {
+func (c *ClientContext) Create(id, namespace, correlationID string) error {
 	// Ensure that the ID is not empty
 	if id == "" {
 		return fmt.Errorf("ID cannot be empty")
@@ -168,7 +168,7 @@ func (c *clientContext) Create(id, namespace, correlationID string) error {
 }
 
 // Create a new lock in the Dislo service with labels
-func (c *clientContext) CreateWithLabels(id, namespace string, labels []pb.Label) error {
+func (c *ClientContext) CreateWithLabels(id, namespace string, labels []pb.Label) error {
 	// Ensure that the ID is not empty
 	if id == "" {
 		return fmt.Errorf("ID cannot be empty")
@@ -186,7 +186,7 @@ func (c *clientContext) CreateWithLabels(id, namespace string, labels []pb.Label
 }
 
 // Delete a lock in the Dislo service
-func (c *clientContext) Delete(id, namespace string) error {
+func (c *ClientContext) Delete(id, namespace string) error {
 	// Ensure that the ID is not empty
 	if id == "" {
 		return fmt.Errorf("ID cannot be empty")
@@ -200,7 +200,7 @@ func (c *clientContext) Delete(id, namespace string) error {
 }
 
 // Get the status of a lock in the Dislo service
-func (c *clientContext) Status(id, namespace string) ([]pb.Lock, error) {
+func (c *ClientContext) Status(id, namespace string) ([]pb.Lock, error) {
 	// Ensure that the ID is not empty
 	if id == "" {
 		return nil, fmt.Errorf("ID cannot be empty")
@@ -216,7 +216,7 @@ func (c *clientContext) Status(id, namespace string) ([]pb.Lock, error) {
 }
 
 // Lists statuses via labels instead of ID
-func (c *clientContext) StatusByLabels(namespace string, labels []pb.Label) ([]pb.Lock, error) {
+func (c *ClientContext) StatusByLabels(namespace string, labels []pb.Label) ([]pb.Lock, error) {
 	// Ensure that the namespace is not empty
 	if namespace == "" {
 		return nil, fmt.Errorf("namespace cannot be empty")
@@ -230,7 +230,7 @@ func (c *clientContext) StatusByLabels(namespace string, labels []pb.Label) ([]p
 }
 
 // Lists all locks in the Dislo service namespace
-func (c *clientContext) List(namespace string) ([]string, error) {
+func (c *ClientContext) List(namespace string) ([]string, error) {
 	// Ensure that the namespace is not empty
 	if namespace == "" {
 		return nil, fmt.Errorf("namespace cannot be empty")
@@ -241,7 +241,7 @@ func (c *clientContext) List(namespace string) ([]string, error) {
 }
 
 // Lists all locks in the Dislo service namespace with labels
-func (c *clientContext) ListWithLabels(namespace string, labels []pb.Label) ([]string, error) {
+func (c *ClientContext) ListWithLabels(namespace string, labels []pb.Label) ([]string, error) {
 	// Ensure that the namespace is not empty
 	if namespace == "" {
 		return nil, fmt.Errorf("namespace cannot be empty")
