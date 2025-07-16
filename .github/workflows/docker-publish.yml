@@ -6,12 +6,16 @@ name: Docker
 # documentation.
 
 on:
-  schedule:
-    - cron: '40 14 * * *'
   push:
     branches: [ "main" ]
     # Publish semver tags as releases.
     tags: [ 'v*.*.*' ]
+    paths-ignore:
+    - 'README.md'
+    - 'docker-compose.yaml'
+    - 'example/**'
+    - '.github/**'
+    - '.git/**'
   pull_request:
     branches: [ "main" ]
 
