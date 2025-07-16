@@ -1,0 +1,185 @@
+# Dislo configuration values to be provided to the Dislo server.
+dislo:
+  server:
+    # This is the listen address for the Dislo server.
+    # You can can typically leave this alone unless you have a specific need to change it.
+    host: 0.0.0.0
+    # Set 'json' or 'text' for the log format. (case sensitive)
+    log_format: json
+    # Set the timezone using the IANA Time Zone Database format.
+    timezone: UTC
+  ######
+  # NOTE - Cluster mode is not implemented yet.
+  #        The cluster DB is being set here for compatibility with future versions.
+  #        As of right now, it simply ensures that the instance being used is not
+  #        the same as the cluster management DB.
+  ######
+  cluster:
+    # The cluster management configuration.
+    management:
+      # The database which is used to store the cluster state.
+      # It is highly recommended to leave this as is.
+      db: 0
+  #
+  # Define the instances that will be used by Dislo.
+  #
+  instances:
+  # id: Any number 1-9 but must be unique across all instances. (You cannot change instance IDs later)
+  # namespaces: A list of namespaces that this instance will manage.
+  #   options: Options for an individual namespace.
+  #     next_in_queue_timeout: The timeout for the next item in the queue.
+  - id: 1
+    namespaces:
+    - name: default
+      options:
+        next_in_queue_timeout: 60s
+
+# Redis configuration values to be provided to the Redis server.
+redis:
+  # Whether to use the built-in Redis server provided by the chart.
+  # If disabled, you can provide your own Redis server configuration.
+  enabled: true
+  # When using the built-in Redis server, you can provide additional configuration values.
+  # If no values are provided, the default values from the bitnami/redis chart will be used.
+  # Consult the chart for more information on available options.
+  # https://github.com/bitnami/charts/blob/main/bitnami/redis/values.yaml
+  # NOTE - Has no effect if redis.enabled is set to false.
+  values: {}
+  # External Redis server configuration.
+  # If redis.enabled is set to false, you MUST provide an external Redis server configuration.
+  external:
+    host: ""
+    port: 6379
+    password: ""
+
+# This will set the replicaset count more information can be found here: https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/
+replicaCount: 1
+
+# This sets the container image more information can be found here: https://kubernetes.io/docs/concepts/containers/images/
+image:
+  repository: ghcr.io/mitchs-dev/dislo
+  # This sets the pull policy for images.
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+# This is for the secretes for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+imagePullSecrets: []
+# This is to override the chart name.
+nameOverride: ""
+fullnameOverride: ""
+
+#This section builds out the service account more information can be found here: https://kubernetes.io/docs/concepts/security/service-accounts/
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Automatically mount a ServiceAccount's API credentials?
+  automount: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+# This is for setting Kubernetes Annotations to a Pod.
+# For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/ 
+podAnnotations: {}
+# This is for setting Kubernetes Labels to a Pod.
+# For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
+podLabels: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+# This is for setting up a service more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/
+service:
+  # This sets the service type more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
+  type: ClusterIP
+  # This sets the ports more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
+  port: 5900
+
+# This block is for setting up the ingress for more information can be found here: https://kubernetes.io/docs/concepts/services-networking/ingress/
+# NOTE - Make sure that you carefully define your ingress for dislo as it is not intended to be exposed to the public internet.
+#        It is recommended to leave this set to false unless your use case requires it.
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: dislo.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+# This is to setup the liveness and readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+livenessProbe:
+  grpc:
+    port: grpc
+    # This is the path that the liveness probe will check.
+    # It is recommended to leave this as is unless you have a specific need to change it.
+    service: dislo.v1.DisloService
+    # This is the method that the liveness probe will call.
+    # It is recommended to leave this as is unless you have a specific need to change it.
+    method: HealthCheck
+readinessProbe:
+  grpc:
+    port: grpc
+    # This is the path that the readiness probe will check.
+    # It is recommended to leave this as is unless you have a specific need to change it.
+    service: dislo.v1.DisloService
+    # This is the method that the readiness probe will call.
+    # It is recommended to leave this as is unless you have a specific need to change it.
+    method: HealthCheck
+
+#This section is for setting up autoscaling more information can be found here: https://kubernetes.io/docs/concepts/workloads/autoscaling/
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+# Additional volumes on the output Deployment definition.
+volumes: []
+# - name: foo
+#   secret:
+#     secretName: mysecret
+#     optional: false
+
+# Additional volumeMounts on the output Deployment definition.
+volumeMounts: []
+# - name: foo
+#   mountPath: "/etc/foo"
+#   readOnly: true
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
