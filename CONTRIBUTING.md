@@ -39,7 +39,15 @@ Thank you for your interest in contributing to Dislo! Your contributions are wel
      git push origin my-feature
      ```
 
-7. **Open a Pull Request**
+7. **Label Your Pull Request**
+   - Before submitting your PR, add **exactly one** of the following labels:
+     - `release:major`
+     - `release:minor`
+     - `release:patch`
+   - This is required for automated versioning and release creation.
+   - PRs without exactly one `release:` label cannot be merged.
+
+8. **Open a Pull Request**
    - Go to your fork on GitHub and open a pull request against the `main` branch.
    - Fill out the pull request template.
 
