@@ -18,6 +18,12 @@ on:
     - '.git/**'
   pull_request:
     branches: [ "main" ]
+    paths-ignore:
+      - 'README.md'
+      - 'docker-compose.yaml'
+      - 'example/**'
+      - '.github/**'
+      - '.git/**'
 
 env:
   # Use docker.io for Docker Hub if empty
