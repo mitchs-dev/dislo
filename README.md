@@ -2,22 +2,21 @@
 
 Dislo is a distributed lock management system implemented in Go, providing a gRPC API for safely coordinating access to shared resources across multiple clients and instances. It supports concurrent locking, queueing, and namespace isolation, making it suitable for distributed systems and microservices architectures.
 
-> [!important]
-> **Clustered Mode** is a planned feature. However, it is not yet available and currently, Dislo operates in a single-node mode. Clustered mode will be implemented based on demand and development availability.
-
----
-
 ## Features
 
 - **Distributed Locking:** Acquire and release locks on named resources across multiple clients and instances.
 - **Namespaces & Instances:** Organize locks by namespaces and instances for multi-tenant or sharded environments.
 - **Queue Management:** Clients are queued for locks, ensuring fair access and preventing race conditions.
 - **gRPC API:** Well-defined protocol buffer API for interoperability.
-- **Cluster Support:** Designed for future cluster mode (currently single-node mode is implemented).
 - **Configurable:** Flexible configuration via JSON or YAML files.
 - **Logging:** Structured logging with configurable formats (JSON or text).
 
----
+## Planned Features
+
+- **Cluster Mode:** Cluster mode will provide dislo with the ability to scale based on demands to ensure that locks are available no matter the size of the workloads.
+- **Persistence:** Enable your lock statuses to persist through restarts
+- **Authentication**: Lightweight client authentication while still maintaining maximum performance.
+- **Additional SDK Language Support**: Enabling Python, NodeJS, and other langauges to use dislo.
 
 ## Security
 
@@ -25,9 +24,17 @@ Dislo is designed for internal use within trusted networks. It does not implemen
 
 For production use, consider deploying Dislo behind a secure network layer (e.g., VPN, TLS) and implement your own authentication and authorization mechanisms.
 
+> [!note]
+> Client authentation is a planned feature. However, performance remains a priority for the dislo project.
+
+## Supported Client SDK Languages
+
+The following languages are supports for the client SDK: 
+
+- Go
 
 > [!note]
-> Authentication and encryption may be implemented in the future, but currently, it is not planned as Dislo is designed to be simple and lightweight for high-performance distributed locking.
+> While the languages above are the only supported SDK languages, you can still use the `dislo.proto` file to generate your own files to intereact with dislo. However, the dislo contributors will **not provide support for 3rd-party scripts, applications, etc**. Contributors _will_ provide support for the `dislo.proto` file, however.
 
 ## Getting Started
 
@@ -57,15 +64,11 @@ For production use, consider deploying Dislo behind a secure network layer (e.g.
    ./proto.sh
    ```
 
----
-
 ## Configuration
 
 - The main configuration is located in [`internal/configuration/default.json`](internal/configuration/default.json).
 - You can override settings by providing your own configuration file, though, this is optional.
 - Key configuration options include server host/port, instances, namespaces, and cluster settings.
-
----
 
 ## Running the Server
 
@@ -84,7 +87,6 @@ docker-compose up --build
 
 The server will start and listen on the configured host and port.
 
----
 
 ## gRPC API
 
@@ -99,7 +101,6 @@ The API is defined in [`proto/dislo.proto`](proto/dislo.proto). Main RPCs:
 
 See the [generated Go code](pkg/generated/dislo/dislo.pb.go) for message and enum details.
 
----
 
 ## Example Client
 
@@ -116,8 +117,6 @@ cd example/client
 go run main.go
 ```
 
----
-
 ## Development
 
 - **Regenerate gRPC code:**  
@@ -127,13 +126,9 @@ go run main.go
 - **Cluster Mode:**  
   Cluster mode is planned but not yet implemented. The server currently runs in single-node mode.
 
----
-
 ## Contributing
 
 Contributions are welcome! Please open issues or submit pull requests for improvements or new features.
-
----
 
 ## License
 
