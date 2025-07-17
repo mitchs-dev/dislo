@@ -1,0 +1,55 @@
+name: Question
+description: Ask a question about Dislo
+labels: [question]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Question
+
+        Thank you for your interest in Dislo! Please provide as much detail as possible so we can assist you.
+
+  - type: input
+    id: summary
+    attributes:
+      label: Summary
+      description: Briefly state your question.
+      placeholder: e.g., How do I configure Dislo for production?
+    validations:
+      required: true
+
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: Please provide more details about your question.
+      placeholder: Include any relevant context, code snippets, or configuration.
+    validations:
+      required: false
+
+  - type: input
+    id: version
+    attributes:
+      label: Dislo Version (if applicable)
+      description: Which version of Dislo are you using?
+      placeholder: e.g., v1.2.3
+    validations:
+      required: false
+
+  - type: input
+    id: environment
+    attributes:
+      label: Environment (if relevant)
+      description: OS, Go version, Docker version, etc.
+      placeholder: e.g., Ubuntu 22.04, Go 1.20, Docker 24.0
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Add any other context or information here.
+      placeholder: Any other information?
+    validations:
+      required: false

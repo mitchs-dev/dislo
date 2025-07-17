@@ -1,0 +1,55 @@
+name: Support Request
+description: Request help or support for using Dislo
+labels: [support]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Support Request
+
+        Need help with Dislo? Please provide details below so we can assist you.
+
+  - type: input
+    id: summary
+    attributes:
+      label: Summary
+      description: Briefly describe the support you need.
+      placeholder: e.g., Trouble connecting to the server
+    validations:
+      required: true
+
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: Please provide more information about your issue or question.
+      placeholder: Include steps you've tried, error messages, or relevant configuration.
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Dislo Version (if applicable)
+      description: Which version of Dislo are you using?
+      placeholder: e.g., v1.2.3
+    validations:
+      required: false
+
+  - type: input
+    id: environment
+    attributes:
+      label: Environment (if relevant)
+      description: OS, Go version, Docker version, etc.
+      placeholder: e.g., Ubuntu 22.04, Go 1.20, Docker 24.0
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Add any other context or information here.
+      placeholder: Any other information?
+    validations:
+      required: false
