@@ -20,6 +20,10 @@ Dislo is a distributed lock management system implemented in Go, providing a gRP
 
 ## Security
 
+See [SECURITY.md](SECURITY.md) for more details on security practices and reporting vulnerabilities.
+
+### Authentication and Encryption
+
 Dislo is designed for internal use within trusted networks. It does not implement authentication or encryption by default.
 
 For production use, consider deploying Dislo behind a secure network layer (e.g., VPN, TLS) and implement your own authentication and authorization mechanisms.
@@ -27,7 +31,11 @@ For production use, consider deploying Dislo behind a secure network layer (e.g.
 > [!note]
 > Client authentation is a planned feature. However, performance remains a priority for the dislo project.
 
-## Supported Client SDK Languages
+## Support
+
+See [SUPPORT.md](SUPPORT.md) for support options and how to get help.
+
+### Client SDK Languages
 
 The following languages are supports for the client SDK: 
 
@@ -129,6 +137,8 @@ go run main.go
 ## Contributing
 
 Contributions are welcome! Please open issues or submit pull requests for improvements or new features.
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on contributing to Dislo.
 
 ## License
 
