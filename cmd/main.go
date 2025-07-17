@@ -5,6 +5,7 @@ import (
 	"net"
 
 	"github.com/mitchs-dev/dislo/internal/configuration"
+	"github.com/mitchs-dev/dislo/internal/version"
 	log "github.com/sirupsen/logrus"
 
 	"github.com/mitchs-dev/dislo/internal/services/dislo"
@@ -14,6 +15,9 @@ import (
 )
 
 func main() {
+
+	log.Infof("Dislo version: %s", version.Version)
+
 	c := configuration.Context
 	// Set up a listener
 	listener := c.Server.Host + ":" + fmt.Sprint(c.Server.Port)
