@@ -1,0 +1,12 @@
+{
+  "release-type": "go",
+  "packages": {
+    ".": {
+      "release-labels": {
+        "major": "release:major",
+        "minor": "release:minor",
+        "patch": "release:patch"
+      }
+    }
+  }
+}
