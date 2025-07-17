@@ -19,7 +19,7 @@ COPY go.mod go.sum ./
 RUN go mod tidy
 
 # Build the application
-RUN CGO_ENABLED=0 GOOS=linux go build -o ./bin ./cmd/main.go
+RUN CGO_ENABLED=0 GOOS=linux go build -ldflags "-X 'github.com/mitchs-dev/dislo/internal/version.Version=${DISLO_VERSION}'" -o ./bin ./cmd/main.go
 RUN chmod +x ./bin
 
 # Final stage
