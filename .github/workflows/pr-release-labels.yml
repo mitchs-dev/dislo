@@ -1,0 +1,34 @@
+name: Enforce Release Label
+
+on:
+  pull_request:
+    types: [opened, labeled, unlabeled, synchronize, reopened, edited]
+
+jobs:
+  check-release-label:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check for exactly one release label
+        id: label_check
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const labels = context.payload.pull_request.labels
+              .map(label => label.name)
+              .filter(name => name.startsWith('release:'));
+            if (labels.length !== 1) {
+              core.setFailed(
+                `❌ This PR must have exactly one release label (release:major, release:minor, or release:patch). Currently found: ${labels.length}.`
+              );
+            }
+      - name: Comment on failure
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: "⚠️ This PR must have **exactly one** `release:` label (`release:major`, `release:minor`, or `release:patch`). Please update the labels and re-run the checks."
+            })
