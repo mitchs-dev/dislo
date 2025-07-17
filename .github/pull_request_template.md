@@ -17,6 +17,19 @@ Closes #
 - [ ] Test improvement
 - [ ] Other (please describe):
 
+<!--
+
+  RELEASE LABEL
+
+  Please add exactly one of the following labels to this PR:
+    - release:major
+    - release:minor
+    - release:patch
+
+  This is required for automated versioning and release creation.
+  PRs without exactly one release label cannot be merged.
+-->
+
 ## Checklist
 
 - [ ] I have read the [CONTRIBUTING.md](../CONTRIBUTING.md).
@@ -24,6 +37,7 @@ Closes #
 - [ ] I have updated documentation as needed.
 - [ ] I have added or updated tests as appropriate.
 - [ ] I have run `go build ./...` and `go test ./...` successfully.
+- [ ] I have set exactly one `release:` label on this PR (`release:major`, `release:minor`, or `release:patch`).
 - [ ] My code follows the project's code style and guidelines.
 
 ## Breaking Changes
